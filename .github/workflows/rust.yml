@@ -1,22 +1,22 @@
-name: Rust
+name:               CI
 
 on:
   push:
-    branches: [ main ]
+    branches:       [ main ]
   pull_request:
-    branches: [ main ]
+    branches:       [ main ]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-latest
+    runs-on:        ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --verbose
-    - name: Tests
-      run: cargo test --verbose
-    - name: Test (futures03)
-      run: cargo test --verbose --features futures03
+    - uses:         actions/checkout@v3
+    - name:         Build
+      run:          cargo build --verbose
+    - name:         Tests
+      run:          cargo test --verbose
+    - name:         Test (futures03)
+      run:          cargo test --verbose --features futures03
