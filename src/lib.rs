@@ -34,6 +34,14 @@ enum PreOrPostFix {
 ///
 /// Here `.clone()` is appended to each result of the iterator. Any value that begins with `.` will
 /// be treated as a postfix.
+///
+/// ### Prefix genawaiter exports
+///
+/// When the source library does not have `genawaiter` as a dependency, e.g. because this
+/// helper macro is being used in a library, it is sometimes necessary to prefix the
+/// reference to `genawaiter`. This is done with a fourth argument, as such:
+///
+/// `nested_iter_yield!(vector_name.iter(), 3, .to_owned(), package_name::)`
 #[proc_macro]
 pub fn nested_iter_yield(item: TokenStream) -> TokenStream {
     // parse input
@@ -50,9 +58,13 @@ pub fn nested_iter_yield(item: TokenStream) -> TokenStream {
         }),
         _ => unreachable!("missing input fields to nested_iter_yield macro"),
     };
+    let genawaiter_import_prefix = match inps.len() {
+        l if l > 3 => inps[3],
+        _ => ""
+    };
 
     // generate code
-    let generator_open = "genawaiter::sync::Gen::new(|co| async move {".to_string();
+    let generator_open = genawaiter_import_prefix.to_string() + "genawaiter::sync::Gen::new(|co| async move {";
     let open_loops = (0..n)
         .map(|i| format!("for val_{i} in {source_iter} {{"))
         .collect::<Vec<_>>()

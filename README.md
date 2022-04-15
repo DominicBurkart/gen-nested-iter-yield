@@ -9,4 +9,4 @@ generate n-nested for loops over identical iterators. This is useful for generat
 stream of permutations with replacement without storing unnecessary intermediary buffers.
 
 The macro returns a [genawaiter::sync](https://docs.rs/genawaiter/latest/genawaiter/sync/index.html)
-generator which, when the feature `futures03` is enabled, implements [futures::stream::Stream](https://docs.rs/futures/0.3.21/futures/stream/index.html).
+generator.
