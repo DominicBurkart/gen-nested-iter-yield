@@ -46,25 +46,26 @@ enum PreOrPostFix {
 pub fn nested_iter_yield(item: TokenStream) -> TokenStream {
     // parse input
     let item_string = item.to_string();
-    let inps = item_string.split(",").collect::<Vec<_>>();
+    let inps = item_string.split(',').collect::<Vec<_>>();
     let source_iter = inps[0].trim();
     let n = usize::from_str(inps[1].trim())
         .expect("nested_iter_yield: could not parse input n as usize.");
     let value_transformation = match inps.len() {
         2 => None,
         l if l > 2 => Some(match inps[2] {
-            m if m.starts_with(".") => PreOrPostFix::Post(inps[2].to_string()),
+            m if m.starts_with('.') => PreOrPostFix::Post(inps[2].to_string()),
             _ => PreOrPostFix::Pre(inps[2].to_string()),
         }),
         _ => unreachable!("missing input fields to nested_iter_yield macro"),
     };
     let genawaiter_import_prefix = match inps.len() {
         l if l > 3 => inps[3],
-        _ => ""
+        _ => "",
     };
 
     // generate code
-    let generator_open = genawaiter_import_prefix.to_string() + "genawaiter::sync::Gen::new(|co| async move {";
+    let generator_open =
+        genawaiter_import_prefix.to_string() + "genawaiter::sync::Gen::new(|co| async move {";
     let open_loops = (0..n)
         .map(|i| format!("for val_{i} in {source_iter} {{"))
         .collect::<Vec<_>>()
