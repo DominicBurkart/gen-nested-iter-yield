@@ -18,5 +18,3 @@ jobs:
       run:          cargo build --verbose
     - name:         Tests
       run:          cargo test --verbose
-    - name:         Tests (futures03)
-      run:          cargo test --verbose --features futures03
