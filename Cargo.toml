@@ -1,6 +1,6 @@
 [package]
 name = "gen-nested-iter-yield"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["Dominic <code@dominic.computer>"]
 description = "A macro for creating n-nested for loops over iterators."
